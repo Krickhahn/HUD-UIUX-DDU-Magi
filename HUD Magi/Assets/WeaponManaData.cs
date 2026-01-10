@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,15 +7,16 @@ public class WeaponManaData
 {
     public WeaponType weaponType;
 
-    [Header("Segments")]
-    public int manaSegments = 5;
-    public float manaPerSegment = 10f;
+    public int maxMana = 6;
+    public int currentMana;
+
+
+    public float regenActive = 3f;
+    public float regenInactive = 0.5f;
 
     [HideInInspector]
-    public float currentMana;
+    public float regenBuffer; // samler regen over tid
 
-    public float MaxMana
-    {
-        get { return manaSegments * manaPerSegment; }
-    }
+    public int CurrentSegments =>
+        Mathf.FloorToInt(currentMana);
 }

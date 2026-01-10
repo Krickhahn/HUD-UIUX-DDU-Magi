@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +6,7 @@ public class AbilityManager : MonoBehaviour
 {
     public WeaponManager weaponManager;
     public WeaponManaManager manaManager;
-
-
+    public IndependentManaRadialBar radialBar;
 
     public AbilityData[] magicAbilities = new AbilityData[4];
     public AbilityData[] gunAbilities = new AbilityData[4];
@@ -35,7 +34,10 @@ public class AbilityManager : MonoBehaviour
             SelectAbility(3);
 
         if (Input.GetMouseButtonDown(0))
+        {
             UseSelectedAbility();
+        }
+
     }
 
     void SelectAbility(int index)
@@ -58,11 +60,22 @@ public class AbilityManager : MonoBehaviour
             return;
 
         if (!manaManager.HasEnoughMana(ability.manaCost))
+        {
+            Debug.Log("Not enough mana");
             return;
+        }
 
         manaManager.UseMana(ability.manaCost);
 
+
+        Debug.Log(
+            "USED ability: " + ability.abilityName +
+            " | Mana left: " + manaManager.GetCurrentMana()
+        );
+
+
     }
+
 
 
     AbilityData GetCurrentAbility(int index)
@@ -80,4 +93,10 @@ public class AbilityManager : MonoBehaviour
 
         return null;
     }
+    public void UseMana(int cost)
+    {
+        Debug.Log($"UseMana called: {cost}");
+
+    }
+
 }

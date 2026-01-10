@@ -6,5 +6,6 @@ using UnityEngine;
 public class AbilityData
 {
     public string abilityName;
-    public float manaCost;
+    public int manaCost;
+
 }

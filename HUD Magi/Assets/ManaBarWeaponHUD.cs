@@ -1,24 +1,21 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ManaSegmentsHUD : MonoBehaviour
+public class ManaBarWeaponHUD : MonoBehaviour
 {
+    public WeaponType weaponType;
     public WeaponManaManager manaManager;
+
     public Image segmentPrefab;
     public RectTransform container;
 
     [Header("Layout")]
     public float radius = 60f;
     public float startAngle = -90f;
-
-    [Tooltip("Total vinkel som mana-baren fylder (fx 270)")]
-    public float totalAngle = 270f;
-
-    [Tooltip("Mellemrum i grader mellem hvert segment")]
+    public float totalAngle = 120f;
     public float gapAngle = 4f;
-
     public bool clockwise = true;
 
     private Image[] segments;
@@ -26,7 +23,7 @@ public class ManaSegmentsHUD : MonoBehaviour
 
     void Update()
     {
-        int maxMana = manaManager.GetMaxMana();
+        int maxMana = manaManager.GetMaxMana(weaponType);
 
         if (maxMana != lastMaxMana)
         {
@@ -44,10 +41,8 @@ public class ManaSegmentsHUD : MonoBehaviour
 
         segments = new Image[count];
 
-        // total vinkel der reelt bruges af segmenter
         float totalGap = gapAngle * (count - 1);
         float usableAngle = totalAngle - totalGap;
-
         float angleStep = usableAngle / count;
 
         for (int i = 0; i < count; i++)
@@ -55,12 +50,8 @@ public class ManaSegmentsHUD : MonoBehaviour
             Image seg = Instantiate(segmentPrefab, container);
             RectTransform rt = seg.rectTransform;
 
-            float angleOffset =
-                i * (angleStep + gapAngle);
-
-            float angle =
-                startAngle +
-                (clockwise ? -angleOffset : angleOffset);
+            float angleOffset = i * (angleStep + gapAngle);
+            float angle = startAngle + (clockwise ? -angleOffset : angleOffset);
 
             Vector2 pos = new Vector2(
                 Mathf.Cos(angle * Mathf.Deg2Rad),
@@ -76,7 +67,7 @@ public class ManaSegmentsHUD : MonoBehaviour
 
     void UpdateSegments()
     {
-        int currentMana = manaManager.GetCurrentMana();
+        int currentMana = manaManager.GetCurrentMana(weaponType);
 
         for (int i = 0; i < segments.Length; i++)
         {

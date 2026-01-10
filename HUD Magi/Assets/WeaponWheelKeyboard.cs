@@ -25,12 +25,12 @@ public class WeaponWheelKeyboard : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            ChangeWeapon(1);
+            ChangeWeapon(-1);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            ChangeWeapon(-1);
+            ChangeWeapon(1);
         }
     }
 
