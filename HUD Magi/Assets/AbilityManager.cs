@@ -6,13 +6,19 @@ public class AbilityManager : MonoBehaviour
 {
     public WeaponManager weaponManager;
     public WeaponManaManager manaManager;
-    public IndependentManaRadialBar radialBar;
+    public AbilityWheelUI abilityWheelUI;
 
     public AbilityData[] magicAbilities = new AbilityData[4];
     public AbilityData[] gunAbilities = new AbilityData[4];
     public AbilityData[] swordAbilities = new AbilityData[4];
 
-    private int selectedAbilityIndex = 0;
+    private int selectedAbilityIndex = -1;
+
+    void Start()
+    {
+        // Sørg for at UI starter korrekt
+        abilityWheelUI.SetWeapon(weaponManager.GetCurrentWeapon());
+    }
 
     void Update()
     {
@@ -21,6 +27,7 @@ public class AbilityManager : MonoBehaviour
 
     void HandleInput()
     {
+        // Keyboard 1–4
         if (Input.GetKeyDown(KeyCode.Alpha1))
             SelectAbility(0);
 
@@ -33,29 +40,58 @@ public class AbilityManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4))
             SelectAbility(3);
 
-        if (Input.GetMouseButtonDown(0))
+        // Scroll wheel (ability skift)
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f)
         {
-            UseSelectedAbility();
+            ScrollAbility(scroll);
         }
 
+        // Brug ability
+        if (Input.GetMouseButtonDown(0))
+            UseSelectedAbility();
     }
+    void ScrollAbility(float scrollInput)
+    {
+        int abilityCount = 4;
+
+        if (selectedAbilityIndex < 0)
+            selectedAbilityIndex = 0;
+
+        if (scrollInput > 0f)
+            selectedAbilityIndex--;
+        else if (scrollInput < 0f)
+            selectedAbilityIndex++;
+
+        // Wrap-around
+        if (selectedAbilityIndex < 0)
+            selectedAbilityIndex = abilityCount - 1;
+
+        if (selectedAbilityIndex >= abilityCount)
+            selectedAbilityIndex = 0;
+
+        SelectAbility(selectedAbilityIndex);
+    }
+
 
     void SelectAbility(int index)
     {
         selectedAbilityIndex = index;
 
         AbilityData ability = GetCurrentAbility(index);
-
         if (ability != null)
-        {
             Debug.Log("Selected ability: " + ability.abilityName);
-        }
+
+        // 🔑 Fortæl UI hvilken ability der er valgt
+        abilityWheelUI.SetSelectedAbility(index);
     }
 
     void UseSelectedAbility()
     {
-        AbilityData ability = GetCurrentAbility(selectedAbilityIndex);
+        if (selectedAbilityIndex < 0)
+            return;
 
+        AbilityData ability = GetCurrentAbility(selectedAbilityIndex);
         if (ability == null)
             return;
 
@@ -65,18 +101,11 @@ public class AbilityManager : MonoBehaviour
             return;
         }
 
+        // 🔑 Brug mana ÉT sted
         manaManager.UseMana(ability.manaCost);
 
-
-        Debug.Log(
-            "USED ability: " + ability.abilityName +
-            " | Mana left: " + manaManager.GetCurrentMana()
-        );
-
-
+        Debug.Log("USED ability: " + ability.abilityName);
     }
-
-
 
     AbilityData GetCurrentAbility(int index)
     {
@@ -93,10 +122,10 @@ public class AbilityManager : MonoBehaviour
 
         return null;
     }
-    public void UseMana(int cost)
+
+    // 🔔 KALDES FRA WeaponManager når våben skiftes
+    public void OnWeaponChanged()
     {
-        Debug.Log($"UseMana called: {cost}");
-
+        abilityWheelUI.SetWeapon(weaponManager.GetCurrentWeapon());
     }
-
 }
