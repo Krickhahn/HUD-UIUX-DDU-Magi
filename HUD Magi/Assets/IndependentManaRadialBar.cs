@@ -95,6 +95,10 @@ public class IndependentManaRadialBar : MonoBehaviour
         OnManaUsed(lostFill);
     }
 
+    public bool IsFull()
+    {
+        return Mathf.Approximately(currentFill, maxFillAmount);
+    }
 
 
 }

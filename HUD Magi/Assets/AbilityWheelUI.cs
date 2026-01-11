@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AbilityWheelUI : MonoBehaviour
 {
+
     [Header("Ability slots per weapon")]
     public AbilitySlotUI[] magicSlots;
     public AbilitySlotUI[] gunSlots;
@@ -57,4 +58,17 @@ public class AbilityWheelUI : MonoBehaviour
         }
         return null;
     }
+    public void UpdateCooldownVisuals(
+    WeaponType weapon,
+    AbilityCooldown[] cooldowns)
+    {
+        AbilitySlotUI[] slots = GetSlotsForWeapon(weapon);
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].SetCooldown(cooldowns[i].Normalized());
+        }
+
+    }
+
 }

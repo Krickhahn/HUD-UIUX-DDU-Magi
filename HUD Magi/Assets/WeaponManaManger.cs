@@ -127,7 +127,16 @@ WeaponManaData GetData(WeaponType weapon)
         return data != null ? data.currentMana : 0f;
     }
 
-    
+    public void ConsumeAllMana(WeaponType weapon)
+    {
+        WeaponManaData data = GetData(weapon);
+        if (data == null)
+            return;
 
+        int amount = data.currentMana;
+        data.currentMana = 0;
+
+        OnManaSpent?.Invoke(weapon, amount);
+    }
 
 }
