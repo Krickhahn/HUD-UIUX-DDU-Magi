@@ -5,16 +5,23 @@ using UnityEngine.UI;
 
 public class UltUIIndicator : MonoBehaviour
 {
-    public Image ultReadyImage;
-    public Image cooldownOverlay;
+    [SerializeField] Image cooldownOverlay;
+    [SerializeField] Image readyGlow;
 
-    public void SetReady(bool ready)
+    public void UpdateState(bool manaFull, float cooldownNormalized)
     {
-        ultReadyImage.enabled = ready;
-    }
-    public void SetCooldown(float normalized)
-    {
-        cooldownOverlay.fillAmount = normalized;
-        cooldownOverlay.enabled = normalized > 0f;
+        // Cooldown overlay
+        if (cooldownOverlay != null)
+        {
+            cooldownOverlay.fillAmount = cooldownNormalized;
+            cooldownOverlay.enabled = cooldownNormalized > 0f;
+        }
+
+        // Glow vises KUN når ult er brugbar
+        if (readyGlow != null)
+        {
+            bool ultReady = manaFull && cooldownNormalized <= 0f;
+            readyGlow.enabled = ultReady;
+        }
     }
 }

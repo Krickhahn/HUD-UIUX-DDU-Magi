@@ -138,5 +138,13 @@ WeaponManaData GetData(WeaponType weapon)
 
         OnManaSpent?.Invoke(weapon, amount);
     }
+    public bool IsManaFull(WeaponType weapon)
+    {
+        WeaponManaData data = GetData(weapon);
+        if (data == null)
+            return false;
+
+        return data.currentMana >= data.maxMana;
+    }
 
 }

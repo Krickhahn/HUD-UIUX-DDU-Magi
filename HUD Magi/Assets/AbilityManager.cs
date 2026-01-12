@@ -8,6 +8,11 @@ public class AbilityManager : MonoBehaviour
     AbilityCooldown[] gunCooldowns = new AbilityCooldown[4];
     AbilityCooldown[] swordCooldowns = new AbilityCooldown[4];
 
+    [Header("Ult UI")]
+    [SerializeField] UltUIIndicator magicUltUI;
+    [SerializeField] UltUIIndicator gunUltUI;
+    [SerializeField] UltUIIndicator swordUltUI;
+
     AbilityCooldown magicUltCooldown;
     AbilityCooldown gunUltCooldown;
     AbilityCooldown swordUltCooldown;
@@ -15,10 +20,6 @@ public class AbilityManager : MonoBehaviour
     public IndependentManaRadialBar magicManaBar;
     public IndependentManaRadialBar gunManaBar;
     public IndependentManaRadialBar swordManaBar;
-
-    public UltUIIndicator magicUltUI;
-    public UltUIIndicator gunUltUI;
-    public UltUIIndicator swordUltUI;
 
     [Header("Ult abilities")]
     public AbilityData magicUlt;
@@ -61,14 +62,22 @@ public class AbilityManager : MonoBehaviour
         UpdateCooldowns();
         UpdateUltUI();
         UpdateCooldownUI(); // 🔥 MANGLER
+
     }
 
     void UpdateCooldowns()
     {
+        // Ability cooldowns
         UpdateSet(magicCooldowns);
         UpdateSet(gunCooldowns);
         UpdateSet(swordCooldowns);
+
+        // 🔑 ULT COOLDOWNS (DETTE MANGLER)
+        magicUltCooldown.Update(Time.deltaTime);
+        gunUltCooldown.Update(Time.deltaTime);
+        swordUltCooldown.Update(Time.deltaTime);
     }
+
     void UpdateSet(AbilityCooldown[] set)
     {
         foreach (var cd in set)
@@ -77,10 +86,12 @@ public class AbilityManager : MonoBehaviour
 
     void UpdateUltUI()
     {
-        magicUltUI.SetReady(magicManaBar.IsFull());
-        gunUltUI.SetReady(gunManaBar.IsFull());
-        swordUltUI.SetReady(swordManaBar.IsFull());
+        UpdateUltForWeapon(WeaponType.Magic);
+        UpdateUltForWeapon(WeaponType.Gun);
+        UpdateUltForWeapon(WeaponType.Sword);
     }
+
+
 
     void HandleInput()
     {
@@ -217,27 +228,25 @@ public class AbilityManager : MonoBehaviour
     void TryUseUlt()
     {
         WeaponType weapon = weaponManager.GetCurrentWeapon();
+        AbilityCooldown cd = GetUltCooldown(weapon);
 
-        IndependentManaRadialBar bar = GetManaBarForWeapon(weapon);
-        AbilityData ult = GetUltForWeapon(weapon);
-        AbilityCooldown ultCooldown = GetUltCooldown(weapon);
-
-        if (bar == null || ult == null || ultCooldown == null)
+        // ❌ Cooldown ikke færdig
+        if (!cd.IsReady())
             return;
 
-        // ❌ Ult er ikke klar
-        if (!bar.IsFull() || !ultCooldown.IsReady())
+        // ❌ Mana ikke fuld
+        if (!manaManager.IsManaFull(weapon))
             return;
 
-        // 🔥 HER UDFØRES ULT-EFFEKTEN
-        Debug.Log("ULT USED: " + ult.abilityName);
-
-        // 🔑 TØM GAMEPLAY-MANA (vigtigt!)
+        // 🔥 Brug ult
         manaManager.ConsumeAllMana(weapon);
 
-        // 🕒 🔥 TRIN 7: START ULT-COOLDOWN
-        ultCooldown.Start();
+        // 🕒 Start cooldown
+        cd.Start();
+
+        Debug.Log("ULT USED");
     }
+
 
     IndependentManaRadialBar GetManaBarForWeapon(WeaponType weapon)
     {
@@ -290,5 +299,30 @@ public class AbilityManager : MonoBehaviour
         if (weapon == WeaponType.Sword)
             abilityWheelUI.UpdateCooldownVisuals(weapon, swordCooldowns);
     }
+    UltUIIndicator GetUltUI(WeaponType weapon)
+    {
+        switch (weapon)
+        {
+            case WeaponType.Magic: return magicUltUI;
+            case WeaponType.Gun: return gunUltUI;
+            case WeaponType.Sword: return swordUltUI;
+        }
+        return null;
+    }
+
+    void UpdateUltForWeapon(WeaponType weapon)
+    {
+        AbilityCooldown cd = GetUltCooldown(weapon);
+        UltUIIndicator ui = GetUltUI(weapon);
+
+        if (cd == null || ui == null)
+            return;
+
+        bool manaFull = manaManager.IsManaFull(weapon);
+        float cooldownNormalized = cd.Normalized();
+
+        ui.UpdateState(manaFull, cooldownNormalized);
+    }
+
 
 }
