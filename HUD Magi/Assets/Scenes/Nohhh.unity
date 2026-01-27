@@ -174,14 +174,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missionTab: {fileID: 90766365}
-  arrowRect: {fileID: 1465021847}
   arrowButton: {fileID: 1465021848}
   arrowImage: {fileID: 1465021849}
   arrowDown: {fileID: 21300000, guid: 25c86ed2702326948bf1d20c0921f10b, type: 3}
-  arrowUp: {fileID: 21300000, guid: c925eaf2a8b911b4584635f4170bf660, type: 3}
+  arrowUp: {fileID: 21300000, guid: 78482dff554a2bf4c8eb1ea667f156a2, type: 3}
   closedPosition: {x: 27, y: 47}
   openPosition: {x: -118, y: -118}
-  arrowFixedPosition: {x: 481, y: 171.1}
   slideSpeed: 8
 --- !u!114 &90766367
 MonoBehaviour:
