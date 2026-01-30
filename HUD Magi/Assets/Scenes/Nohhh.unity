@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 29.599976, y: 48.100006}
-  m_SizeDelta: {x: 690.3558, y: 392}
+  m_AnchoredPosition: {x: 17.7371, y: 48.100006}
+  m_SizeDelta: {x: 611.2695, y: 392}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &90766366
 MonoBehaviour:
@@ -178,8 +178,8 @@ MonoBehaviour:
   arrowImage: {fileID: 1465021849}
   arrowDown: {fileID: 21300000, guid: bd92a35caaf5561428e97599fb9af92f, type: 3}
   arrowUp: {fileID: 21300000, guid: 4167885246922dd4ca409979d9f98864, type: 3}
-  closedPosition: {x: 35, y: 47}
-  openPosition: {x: -90, y: -110}
+  closedPosition: {x: 28, y: 47}
+  openPosition: {x: -80, y: -110}
   slideSpeed: 8
 --- !u!114 &90766367
 MonoBehaviour:
@@ -532,7 +532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 292, y: 168.9}
+  m_AnchoredPosition: {x: 279, y: 169.2}
   m_SizeDelta: {x: 125.452, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1465021848
