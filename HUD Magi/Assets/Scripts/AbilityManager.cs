@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AbilityManager : MonoBehaviour
 {
+    [Header("UI")]
+    [SerializeField] AbilityManaCostUI manaCostUI;
+
     AbilityCooldown[] magicCooldowns = new AbilityCooldown[4];
     AbilityCooldown[] gunCooldowns = new AbilityCooldown[4];
     AbilityCooldown[] swordCooldowns = new AbilityCooldown[4];
@@ -158,6 +161,9 @@ public class AbilityManager : MonoBehaviour
 
         // 🔑 Fortæl UI hvilken ability der er valgt
         abilityWheelUI.SetSelectedAbility(index);
+        UpdateManaCostUI(); // 👈 TILFØJ DENNE
+
+
     }
 
     void UseSelectedAbility()
@@ -224,7 +230,9 @@ public class AbilityManager : MonoBehaviour
     public void OnWeaponChanged()
     {
         abilityWheelUI.SetWeapon(weaponManager.GetCurrentWeapon());
+        UpdateManaCostUI(); // 👈 TILFØJ DENNE
     }
+
     void TryUseUlt()
     {
         WeaponType weapon = weaponManager.GetCurrentWeapon();
@@ -324,5 +332,22 @@ public class AbilityManager : MonoBehaviour
         ui.UpdateState(manaFull, cooldownNormalized);
     }
 
+    void UpdateManaCostUI()
+    {
+        if (selectedAbilityIndex < 0)
+        {
+            manaCostUI?.Clear();
+            return;
+        }
+
+        AbilityData ability = GetCurrentAbility(selectedAbilityIndex);
+        if (ability == null)
+        {
+            manaCostUI?.Clear();
+            return;
+        }
+
+        manaCostUI?.SetCost(ability.manaCost);
+    }
 
 }
