@@ -29,6 +29,7 @@ public class MissionTabToggle : MonoBehaviour
         arrowButton.onClick.AddListener(ToggleTab);
     }
 
+  
     void ToggleTab()
     {
         isOpen = !isOpen;
@@ -44,5 +45,11 @@ public class MissionTabToggle : MonoBehaviour
             target,
             Time.deltaTime * slideSpeed
         );
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                ToggleTab();
+            }
+        }
     }
 }
