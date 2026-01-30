@@ -1,6 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerStats))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode crouchKey = KeyCode.R;
 
     private CharacterController controller;
+    private PlayerStats playerStats;          // ✅ added
     private Vector3 moveDirection;
     private float rotationX;
 
@@ -33,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerStats = GetComponent<PlayerStats>();   // ✅ added
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -72,11 +75,23 @@ public class PlayerMovement : MonoBehaviour
 
     float GetCurrentSpeed()
     {
+        // Crouch always overrides sprint
         if (Input.GetKey(crouchKey))
             return crouchSpeed;
 
-        if (Input.GetKey(KeyCode.LeftShift))
-            return runSpeed;
+        bool wantsToSprint = Input.GetKey(KeyCode.LeftShift);
+        bool movingForward = Input.GetAxis("Vertical") > 0.1f;
+
+        if (wantsToSprint && movingForward)
+        {
+            // 🔋 Drain stamina while sprinting
+            bool canSprint = playerStats.UseStamina(
+                playerStats.sprintDrainRate * Time.deltaTime
+            );
+
+            if (canSprint)
+                return runSpeed;
+        }
 
         return walkSpeed;
     }

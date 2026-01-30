@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 1848583664}
   - component: {fileID: 1848583666}
   - component: {fileID: 1848583665}
+  - component: {fileID: 1848583667}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -631,13 +632,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 4ac2aa3318992b34abc511181b5918b5, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillClockwise: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1848583666
@@ -648,6 +649,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1848583663}
   m_CullTransparentMesh: 1
+--- !u!114 &1848583667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848583663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee43f77847ecc4191ab177b501d0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barImage: {fileID: 1848583665}
+  minFill: 0.53
+  maxFill: 0.97
+  maxValue: 100
+  currentValue: 100
+  regenRate: 0
 --- !u!1 &1916482506
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1916482508}
   - component: {fileID: 1916482507}
+  - component: {fileID: 1916482509}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -742,6 +762,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1916482509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916482506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1930324241
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +796,7 @@ GameObject:
   - component: {fileID: 1930324242}
   - component: {fileID: 1930324244}
   - component: {fileID: 1930324243}
+  - component: {fileID: 1930324245}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -800,13 +844,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 02209c9091124154fa13f4b45f923d55, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1930324244
@@ -817,6 +861,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1930324241}
   m_CullTransparentMesh: 1
+--- !u!114 &1930324245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930324241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feee43f77847ecc4191ab177b501d0a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barImage: {fileID: 1930324243}
+  minFill: 0.53
+  maxFill: 0.97
+  maxValue: 100
+  currentValue: 100
+  regenRate: 15
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
